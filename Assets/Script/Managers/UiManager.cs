@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UiManager : MonoSingleton<UiManager>
 {
-    public Button btnRightPress;
-    public Button btnLeftPress;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,5 +22,11 @@ public class UiManager : MonoSingleton<UiManager>
     void StartUp()
     {
 
+    }    
+
+    public void StartGamePlay()
+    {
+        SceneManager.LoadSceneAsync("GamePlaySence");
+        GamePlayManager.Instance.StartGamePlay();
     }    
 }

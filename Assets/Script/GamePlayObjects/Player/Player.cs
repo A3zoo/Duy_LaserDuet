@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
 
     public void Run()
     {
+        Debug.Log("Duy");
         isStarted = true;
     }    
 

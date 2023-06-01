@@ -5,7 +5,7 @@ using UnityEngine;
 public class GamePlayManager : MonoSingleton<GamePlayManager>
 {
     public GameObject Player;
-    private bool isStarted = false;
+    public bool isStarted;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,8 +31,8 @@ public class GamePlayManager : MonoSingleton<GamePlayManager>
     public void StartGamePlay()
     {
         isStarted = true;
-        Player.GetComponent<Player>().Run();
         ObstacleManager.Instance.StartGamePlay();
+        Player.GetComponent<Player>().Run();
     }    
 
     public void EndGamePlay()
@@ -40,11 +40,6 @@ public class GamePlayManager : MonoSingleton<GamePlayManager>
         Player.GetComponent<Player>().Stop();
         ObstacleManager.Instance.EndGamePlay();
     }    
-
-    void GetPlayerAction()
-    {
-        
-    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

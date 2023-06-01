@@ -79,6 +79,7 @@ public class PoolObjectHandler : MonoBehaviour
         }
         if (this.stackObjs.Count == 0) AddOneObject();
         GameObject obj = this.stackObjs.Pop();
+        obj.transform.position = this.transform.position;
         obj?.gameObject.SetActive(true);
         return obj;
     }
