@@ -6,6 +6,9 @@ public class GamePlayManager : MonoSingleton<GamePlayManager>
 {
     public GameObject Player;
     public bool isStarted;
+    public float timeToUpScore = 2;
+    public float scoreTimer = 0;
+    public int math = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +18,8 @@ public class GamePlayManager : MonoSingleton<GamePlayManager>
     // Update is called once per frame
     void Update()
     {
-        
+        if (isStarted)
+            UpScore();
     }
 
     public GameObject GetPlayer()
@@ -37,8 +41,19 @@ public class GamePlayManager : MonoSingleton<GamePlayManager>
 
     public void EndGamePlay()
     {
+        isStarted = false;
         Player.GetComponent<Player>().Stop();
         ObstacleManager.Instance.EndGamePlay();
+    }    
+
+    public void UpScore()
+    {
+        scoreTimer += Time.deltaTime;
+        if (scoreTimer >= timeToUpScore)
+        {
+            scoreTimer = 0;
+            UiManager.Instance.UpScore(1);
+        }
     }    
 
     private void OnCollisionEnter2D(Collision2D collision)

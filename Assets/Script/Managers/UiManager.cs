@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class UiManager : MonoSingleton<UiManager>
 {
-
+    public Text scoreText;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +27,10 @@ public class UiManager : MonoSingleton<UiManager>
     public void StartGamePlay()
     {
         SceneManager.LoadSceneAsync("GamePlaySence");
-        GamePlayManager.Instance.StartGamePlay();
+    }    
+
+    public void UpScore(int a)
+    {
+        this.scoreText.text = (int.Parse(this.scoreText.text) + a).ToString();
     }    
 }
