@@ -13,6 +13,13 @@ public class GameManager : MonoSingleton<GameManager>
     {
         SoundManager.Instance._fxMusicBGBase.Play("Hypnotic-Puzzle");
         DataManager.Instance.OpenApp();
+        StartCoroutine(LoadSceneMain(4f));
+    }
+
+    private IEnumerator LoadSceneMain(float a)
+    {
+        yield return new WaitForSeconds(a);
+        LoadScene("MainGameSence");
     }
 
     public void StartGame()
@@ -60,7 +67,7 @@ public class GameManager : MonoSingleton<GameManager>
         ObstacleManager.Instance.EndGamePlay();
         DataManager.Instance.Save();
         UiManager.Instance.ShowPanelHightScore();
-        SceneManager.LoadScene("MainGameSence");
+        StartCoroutine(LoadSceneMain(3f));
     }    
 
     void Awake()
