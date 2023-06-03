@@ -34,6 +34,7 @@ public class GamePlayManager : MonoSingleton<GamePlayManager>
 
     public void StartGamePlay()
     {
+        SoundManager.Instance._fxMusicBGBase.Play("Hypnotic-Puzzle");
         isStarted = true;
         ObstacleManager.Instance.StartGamePlay();
         Player.GetComponent<Player>().Run();
@@ -43,7 +44,7 @@ public class GamePlayManager : MonoSingleton<GamePlayManager>
     {
         isStarted = false;
         Player.GetComponent<Player>().Stop();
-        ObstacleManager.Instance.EndGamePlay();
+        GameManager.Instance.EndGamePlay();
     }    
 
     public void UpScore()
@@ -52,7 +53,7 @@ public class GamePlayManager : MonoSingleton<GamePlayManager>
         if (scoreTimer >= timeToUpScore)
         {
             scoreTimer = 0;
-            UiManager.Instance.UpScore(1);
+            GameManager.Instance.UpScore();
         }
     }    
 

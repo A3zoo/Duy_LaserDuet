@@ -32,7 +32,6 @@ public class ObstacleManager : MonoSingleton<ObstacleManager>
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
         _level = 1;
     }
 
@@ -110,8 +109,19 @@ public class ObstacleManager : MonoSingleton<ObstacleManager>
     public void CollidedWithPlayer()
     {
         Debug.Log(100);
+        ReturnAllObstacles();
         GamePlayManager.Instance.EndGamePlay();
     }    
+
+    public void ReturnAllObstacles()
+    {
+        GameObject[] ObstaclesObject = GameObject.FindGameObjectsWithTag("Obstacles");
+        foreach (GameObject a in ObstaclesObject)
+        {
+            ReturnObjectToContainer(a);
+        }    
+        
+    }
 
     public void ReturnObjectToContainer(GameObject a)
     {

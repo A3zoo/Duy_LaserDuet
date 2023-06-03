@@ -14,7 +14,6 @@ public class PoolingManager : MonoSingleton<PoolingManager>
     private void Start()
     {
         //Giúp obj này không bị destroy và mang qua scene khác
-        DontDestroyOnLoad(this);
         InitPooling();
     }
     public void ClickLoadScene()

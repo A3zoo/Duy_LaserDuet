@@ -1,100 +1,81 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-    public Transform _popUpContainer;
     public void Start()
     {
         OpenApp();
     }
     public void OpenApp()
     {
+        SoundManager.Instance._fxMusicBGBase.Play("Hypnotic-Puzzle");
         DataManager.Instance.OpenApp();
-        OnShowDialog<HighScorePopup>("hightscore");
     }
-    public void OnShowDialog<T>(string path, object data = null, UnityEngine.Events.UnityAction callbackCompleteShow = null) where T : BaseDialog
-    {
-        GameObject prefab = GetResourceFile<GameObject>(path);
-        Debug.Log(prefab);
-        Debug.Log("Onshow roi ne");
-        if (prefab != null)
-        {
-            T objectSpawned = (Instantiate(prefab, _popUpContainer)).GetComponent<T>();
-            Debug.Log(objectSpawned);
-            if (objectSpawned != null)
-            {
-                objectSpawned.OnShow(data, callbackCompleteShow);
-            }
-        }
-    }
+
     public void StartGame()
     {
         GamePlayManager.Instance.StartGamePlay();
-        //DataManager.Instance.CreateUser();
-        //GameUi.Instance.start.gameObject.SetActive(false);
-        closePanel();
     }
+
     public void EndGame()
     {
-        OnShowDialog<HighScorePopup>("hightscore");
-        //GameUi.Instance.Init();
-        //GamePlayManager.Instance.Init();
+        OnsShowHightScore();
+    }
+
+    public void OnsShowHightScore()
+    {
+        GameObject prefab = GetResourceFile<GameObject>("Panel");
+        if (prefab != null)
+        {
+            Debug.Log(-1);
+            GameObject popup = GameObject.Instantiate(prefab);
+        }
     }
     public void Reload()
     {
         //GamePlayManager.Instance.EndGame();
     }
-    public void LoadScene()
+    public void LoadScene(string str)
     {
-
+        SceneManager.LoadSceneAsync(str);
     }
 
-    public void closePanel()
-    {
-        GameObject[] a = GameObject.FindGameObjectsWithTag("ui");
-        foreach (GameObject i in a)
-        {
-            i.GetComponent<HighScorePopup>().OnHide();
-        }
-    }
-
-    /// <summary>
-    /// Load m�?t file t?? folder Resource
-    /// </summary>
-    /// <typeparam name="T">Ki�?u d?? li�?u ho??c 1 component</typeparam>
-    /// <param name="path">????ng d�?n file, bo? ?u�i file va? ph�?n /Resource</param>
-    /// <returns></returns>
     public T GetResourceFile<T>(string path) where T : Object
     {
         return Resources.Load<T>(path) as T;
     }
 
-    /// <summary>
-    /// Ta?o ?i�?m gia? ?�? ?�? l�n cho user, ca?c ba?n se? thay b??ng Ha?m l�?y danh sa?ch highscore ????c l?u d???i ma?y
-    /// </summary>
-    /// <returns></returns>
-    public List<HighScoreData> GenerateFakeHighScore()
+    public void UpScore()
     {
-        List<HighScoreData> _scores = new List<HighScoreData>();
-        //foreach (HighScoreData i in DataManager.Instance.playerList)
-        //{
-        //    _scores.Add(i);
-        //}
-        return _scores;
+        UiManager.Instance.UpScore(1);
+        DataManager.Instance.ChangeData(int.Parse(UiManager.Instance.scoreText.text));
+    }    
+
+    public void EndGamePlay()
+    {
+        SoundManager.Instance._fxSoundBase.Play("die");
+        ObstacleManager.Instance.EndGamePlay();
+        DataManager.Instance.Save();
+        UiManager.Instance.ShowPanelHightScore();
+        SceneManager.LoadScene("MainGameSence");
+    }    
+
+    void Awake()
+    {
+        DontDestroyOnLoad(this);
     }
 }
 
 public class HighScoreData
 {
-    public string time;
-    public int diem;
+    public int diem = 0;
     public HighScoreData()
     { }
-    public HighScoreData(string date, int diem)
+    public HighScoreData(int diem)
     {
-        time = date;
         this.diem = diem;
     }
 }
